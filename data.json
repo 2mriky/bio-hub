@@ -1,0 +1,272 @@
+{
+  "version": 2,
+  "profile": {
+    "name": "Nour Mohamed",
+    "monogram": "NM*",
+    "role": "Multidisciplinary Creative Director & AI Specialist",
+    "location": "New Cairo · Open to remote worldwide",
+    "avatar": "assets/avatar.jpg",
+    "bio": "I blend visual design, 3D spatial visualization, and generative AI to architect premium brand identities and grow communities without paid reach.",
+    "status": {
+      "show": true,
+      "live": true,
+      "label": "Open for projects"
+    },
+    "capabilities": [
+      "Visual systems",
+      "Brand architecture",
+      "Spatial visualization",
+      "Generative AI",
+      "Prompt engineering",
+      "Omnichannel strategy",
+      "Experiential marketing"
+    ]
+  },
+  "theme": {
+    "preset": "copper",
+    "accent": "",
+    "glow": true,
+    "grain": true
+  },
+  "settings": {
+    "siteTitle": "Nour Mohamed — Creative Director & AI Specialist",
+    "siteDescription": "Multidisciplinary Creative Director and AI specialist in New Cairo. Portfolios, brands, and contact in one place.",
+    "siteUrl": "https://i2mriky.github.io/nm-bio/",
+    "ogImage": "assets/og.jpg",
+    "showQR": true,
+    "showVCard": true,
+    "analyticsScript": ""
+  },
+  "contact": {
+    "email": "2mrikydesign@gmail.com",
+    "phone": "+201555846969",
+    "vcardCompany": "NM* Studio"
+  },
+  "actions": [
+    {
+      "id": "a1",
+      "label": "Download CV",
+      "url": "https://nour2mriky.my.canva.site/nour-mohamed-cv",
+      "primary": true,
+      "enabled": true
+    },
+    {
+      "id": "a2",
+      "label": "WhatsApp",
+      "url": "https://wa.me/201143650240",
+      "primary": false,
+      "enabled": true
+    },
+    {
+      "id": "a3",
+      "label": "Email",
+      "url": "mailto:2mrikydesign@gmail.com",
+      "primary": false,
+      "enabled": true
+    },
+    {
+      "id": "a4",
+      "label": "Save contact",
+      "url": "vcard",
+      "primary": false,
+      "enabled": true
+    }
+  ],
+  "portfolios": {
+    "title": "Portfolios",
+    "note": "Three tracks, three decks",
+    "enabled": true,
+    "items": [
+      {
+        "id": "p1",
+        "title": "Creative Direction",
+        "subtitle": "Visual systems, digital stories, architecting brands",
+        "tag": "Deck 01",
+        "cover": "assets/cover-creative-director.jpg",
+        "url": "https://nour2mriky.my.canva.site/nour-portfolio-creative-director",
+        "enabled": true
+      },
+      {
+        "id": "p2",
+        "title": "AI Creative Direction",
+        "subtitle": "Directing models, engineering pipelines, shipping campaigns",
+        "tag": "Deck 02",
+        "cover": "assets/cover-ai-creative-director.jpg",
+        "url": "https://nour2mriky.my.canva.site/nour-moh-ai-creative-director",
+        "enabled": true
+      },
+      {
+        "id": "p3",
+        "title": "Content & Copywriting",
+        "subtitle": "Storytelling, scripts, brand voice, strategy",
+        "tag": "Deck 03",
+        "cover": "assets/cover-content-creative.jpg",
+        "url": "https://nour2mriky.my.canva.site/nour-mohamed-content-creative",
+        "enabled": true
+      }
+    ]
+  },
+  "brands": {
+    "title": "Brands & pages",
+    "note": "",
+    "enabled": true,
+    "items": [
+      {
+        "id": "b1",
+        "name": "i2mriky",
+        "arabic": "",
+        "role": "Personal brand",
+        "tagline": "Creative direction, AI art, and the craft behind it.",
+        "logo": "assets/avatar.jpg",
+        "monogram": "NM",
+        "primaryUrl": "https://www.instagram.com/i2mriky",
+        "enabled": true,
+        "socials": [
+          {
+            "net": "instagram",
+            "url": "https://www.instagram.com/i2mriky"
+          },
+          {
+            "net": "facebook",
+            "url": "https://www.facebook.com/profile.php?id=61576439245217"
+          },
+          {
+            "net": "threads",
+            "url": "https://www.threads.com/@i2mriky"
+          },
+          {
+            "net": "tiktok",
+            "url": "https://www.tiktok.com/@i2mriky"
+          },
+          {
+            "net": "pinterest",
+            "url": "https://pin.it/7AdtP23oT"
+          },
+          {
+            "net": "linkedin",
+            "url": "https://www.linkedin.com/in/nour-mohamed-56a7463b9"
+          }
+        ]
+      },
+      {
+        "id": "b2",
+        "name": "M3anyi",
+        "arabic": "معانى",
+        "role": "Founder — since 2017",
+        "tagline": "اقتباس وتصميم. A 24.5K Arabic community built on psychological design.",
+        "logo": "assets/logo-m3anyi.png",
+        "monogram": "م",
+        "primaryUrl": "https://www.instagram.com/m3anyi_egy",
+        "enabled": true,
+        "socials": [
+          {
+            "net": "instagram",
+            "url": "https://www.instagram.com/m3anyi_egy"
+          },
+          {
+            "net": "facebook",
+            "url": "https://www.facebook.com/m3anyiegy"
+          },
+          {
+            "net": "threads",
+            "url": "https://www.threads.com/@m3anyi_egy"
+          },
+          {
+            "net": "tiktok",
+            "url": "https://www.tiktok.com/@m3anyi_egy"
+          },
+          {
+            "net": "pinterest",
+            "url": "https://pin.it/7oMjMXNxT"
+          },
+          {
+            "net": "linkedin",
+            "url": "https://www.linkedin.com/in/m3anyi-egy-a40130424"
+          },
+          {
+            "net": "mail",
+            "url": "mailto:m3anyi.egy@gmail.com"
+          }
+        ]
+      },
+      {
+        "id": "b3",
+        "name": "Gray Museum",
+        "arabic": "",
+        "role": "Founder — since 2017",
+        "tagline": "A conceptual AI exhibition. Cursed high-end, told as short fiction.",
+        "logo": "assets/logo-gray.jpg",
+        "monogram": "GM",
+        "primaryUrl": "https://www.instagram.com/gray.museum",
+        "enabled": true,
+        "socials": [
+          {
+            "net": "instagram",
+            "url": "https://www.instagram.com/gray.museum"
+          },
+          {
+            "net": "facebook",
+            "url": "https://www.facebook.com/Gray.museum.gm"
+          },
+          {
+            "net": "tiktok",
+            "url": "https://www.tiktok.com/@gray.museum"
+          },
+          {
+            "net": "pinterest",
+            "url": "https://pin.it/8oJEGWyJO"
+          }
+        ]
+      }
+    ]
+  },
+  "otherPages": {
+    "title": "Other pages",
+    "note": "Side projects and stores",
+    "enabled": true,
+    "items": [
+      {
+        "id": "o1",
+        "name": "Mobbit",
+        "net": "instagram",
+        "url": "https://www.instagram.com/mobbit.store",
+        "enabled": true
+      },
+      {
+        "id": "o2",
+        "name": "What if World — WIW",
+        "net": "instagram",
+        "url": "https://www.instagram.com/whatifworld.wiw",
+        "enabled": true
+      },
+      {
+        "id": "o3",
+        "name": "Ghost Labs",
+        "net": "instagram",
+        "url": "https://www.instagram.com/ghostlabs.ai",
+        "enabled": true
+      },
+      {
+        "id": "o4",
+        "name": "Kshaf — كشاف",
+        "net": "instagram",
+        "url": "https://www.instagram.com/kshaf.store",
+        "enabled": true
+      },
+      {
+        "id": "o5",
+        "name": "Kalam w Khalas — كلام وخلاص",
+        "net": "instagram",
+        "url": "https://www.instagram.com/kalamwkhalas",
+        "enabled": true
+      }
+    ]
+  },
+  "journal": {
+    "title": "Journal",
+    "note": "Notes on craft",
+    "enabled": false,
+    "emptyLine": "First note lands here soon.",
+    "items": []
+  }
+}

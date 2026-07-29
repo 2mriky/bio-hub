@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>NM* Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0B0D;--panel:#131316;--panel2:#0E0E11;--ink:#F2EFE9;--muted:#7A756E;--line:#242428;
+--accent:#E07848;--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:14px;line-height:1.5}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.shell{display:grid;grid-template-columns:minmax(0,1fr) 440px;min-height:100dvh}
+@media(max-width:1080px){.shell{grid-template-columns:1fr}#pane{display:none}}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;
+border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20;flex-wrap:wrap}
+.brand{font-family:var(--fd);font-weight:800;font-size:16px}
+.brand small{font-family:var(--fm);font-weight:400;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-inline-start:10px}
+.tabs{display:flex;gap:2px;padding:0 24px;border-bottom:1px solid var(--line);overflow-x:auto;position:sticky;top:57px;background:var(--bg);z-index:19}
+.tab{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:none;border:0;
+border-bottom:2px solid transparent;color:var(--muted);padding:14px;cursor:pointer;white-space:nowrap}
+.tab[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+main{padding:26px 24px 100px;max-width:840px}
+.panel{display:none}.panel.on{display:block}
+h2{font-family:var(--fd);font-weight:700;font-size:21px;letter-spacing:-.02em;margin-bottom:6px}
+.hint{color:var(--muted);font-size:13px;margin-bottom:22px;max-width:64ch}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+label{display:block;font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+input,textarea,select{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--ink);
+font-family:var(--fb);font-size:14px;padding:10px 12px;border-radius:6px}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);outline:none}
+textarea{resize:vertical;min-height:72px}
+.field{margin-bottom:14px}
+.sw{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);cursor:pointer;user-select:none}
+.sw input{width:auto}
+.card{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:16px;margin-bottom:12px}
+.card.sub{background:var(--panel2)}
+.ch{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.ch .num{font-family:var(--fm);font-size:11px;color:var(--muted);min-width:22px}
+.ch .t{flex:1;font-family:var(--fd);font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini{width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;
+background:none;color:var(--muted);cursor:pointer;font-size:12px;line-height:1;flex:none}
+.mini:hover{border-color:var(--accent);color:var(--accent)}
+.mini.dg:hover{border-color:#C0392B;color:#C0392B}
+.btn{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);
+border-radius:999px;background:none;color:var(--ink);padding:11px 18px;cursor:pointer}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.solid{background:var(--accent);border-color:var(--accent);color:#0B0B0D;font-weight:500}
+.btn.solid:hover{filter:brightness(1.1);color:#0B0B0D}
+.btn.dg:hover{border-color:#C0392B;color:#C0392B}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.socrow{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:8px;align-items:center;margin-bottom:8px}
+@media(max-width:600px){.socrow{grid-template-columns:1fr auto}}
+.themes{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.th{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px;cursor:pointer;text-align:left}
+.th[aria-pressed=true]{border-color:var(--accent)}
+.th i{width:22px;height:22px;display:inline-block;border-radius:4px;margin-right:4px}
+.th b{display:block;margin-top:8px;font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:400;color:var(--muted)}
+#pane{border-inline-start:1px solid var(--line);position:sticky;top:0;height:100dvh;display:flex;flex-direction:column}
+.ph{padding:12px 16px;border-bottom:1px solid var(--line);font-family:var(--fm);font-size:10px;letter-spacing:.12em;
+text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+iframe{flex:1;width:100%;border:0;background:#08080A}
+.note{border-inline-start:2px solid var(--accent);padding:12px 14px;background:var(--panel);color:var(--muted);font-size:13px;margin-bottom:18px}
+.note b{color:var(--ink)}
+code{font-family:var(--fm);font-size:12px;color:var(--accent)}
+.toast{position:fixed;bottom:20px;left:50%;translate:-50% 0;background:var(--ink);color:var(--bg);font-family:var(--fm);
+font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:11px 18px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+.toast.on{opacity:1}
+.dirty{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="shell">
+<div>
+  <header class="head">
+    <div class="brand">NM* <small>Dashboard</small></div>
+    <div class="bar" style="margin:0">
+      <span id="state" style="font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);align-self:center">Loading</span>
+      <button class="btn" id="bExport">Export</button>
+      <button class="btn solid" id="bPush">Publish</button>
+    </div>
+  </header>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-p="profile" aria-selected="true">Profile</button>
+    <button class="tab" role="tab" data-p="portfolios">Portfolios</button>
+    <button class="tab" role="tab" data-p="brands">Brands</button>
+    <button class="tab" role="tab" data-p="other">Other pages</button>
+    <button class="tab" role="tab" data-p="journal">Journal</button>
+    <button class="tab" role="tab" data-p="theme">Theme</button>
+    <button class="tab" role="tab" data-p="settings">Settings</button>
+    <button class="tab" role="tab" data-p="publish">Publish</button>
+  </div>
+  <main>
+    <section class="panel on" id="p-profile">
+      <h2>Profile</h2>
+      <p class="hint">The top of the page. Keep the bio to one sentence naming what you make and for whom.</p>
+      <div class="grid">
+        <div class="field"><label>Name</label><input data-b="profile.name"></div>
+        <div class="field"><label>Monogram</label><input data-b="profile.monogram"></div>
+        <div class="field"><label>Role line</label><input data-b="profile.role"></div>
+        <div class="field"><label>Location</label><input data-b="profile.location"></div>
+      </div>
+      <div class="field"><label>Bio</label><textarea data-b="profile.bio"></textarea></div>
+      <div class="field"><label>Avatar path</label><input data-b="profile.avatar" placeholder="assets/avatar.jpg"></div>
+      <div class="field"><label>Capabilities, comma separated</label><input data-b="profile.capabilities" data-list="1"></div>
+      <div class="field"><label>Availability</label>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <label class="sw"><input type="checkbox" data-b="profile.status.show"> Show</label>
+          <label class="sw"><input type="checkbox" data-b="profile.status.live"> Pulsing dot</label>
+          <input data-b="profile.status.label" style="flex:1;min-width:180px">
+        </div>
+      </div>
+      <h2 style="font-size:16px;margin-top:28px">Hero buttons</h2>
+      <p class="hint">Up to three. Use <code>vcard</code> as the URL to make a save-contact button.</p>
+      <div id="lActions"></div>
+      <div class="bar"><button class="btn" data-add="actions">+ Add button</button></div>
+    </section>
+
+    <section class="panel" id="p-portfolios">
+      <h2>Portfolios</h2>
+      <p class="hint">Your Canva decks. These are the highest-value clicks on the page, so they sit first and get the biggest cards.</p>
+      <div class="grid" style="margin-bottom:18px">
+        <div class="field"><label>Section title</label><input data-b="portfolios.title"></div>
+        <div class="field"><label>Section note</label><input data-b="portfolios.note"></div>
+      </div>
+      <label class="sw" style="margin-bottom:18px"><input type="checkbox" data-b="portfolios.enabled"> Show this section</label>
+      <div id="lPortfolios"></div>
+      <div class="bar"><button class="btn" data-add="portfolios.items">+ Add portfolio</button></div>
+    </section>
+
+    <section class="panel" id="p-brands">
+      <h2>Brands</h2>
+      <p class="hint">One card per brand: mark, name, role, and its own row of social icons. Leave the logo path empty to fall back to the monogram.</p>
+      <div class="grid" style="margin-bottom:18px">
+        <div class="field"><label>Section title</label><input data-b="brands.title"></div>
+        <div class="field"><label>Section note</label><input data-b="brands.note"></div>
+      </div>
+      <label class="sw" style="margin-bottom:18px"><input type="checkbox" data-b="brands.enabled"> Show this section</label>
+      <div id="lBrands"></div>
+      <div class="bar"><button class="btn" data-add="brands.items">+ Add brand</button></div>
+    </section>
+
+    <section class="panel" id="p-other">
+      <h2>Other pages</h2>
+      <p class="hint">Compact chips for side projects with a single link each.</p>
+      <div class="grid" style="margin-bottom:18px">
+        <div class="field"><label>Section title</label><input data-b="otherPages.title"></div>
+        <div class="field"><label>Section note</label><input data-b="otherPages.note"></div>
+      </div>
+      <label class="sw" style="margin-bottom:18px"><input type="checkbox" data-b="otherPages.enabled"> Show this section</label>
+      <div id="lOther"></div>
+      <div class="bar"><button class="btn" data-add="otherPages.items">+ Add page</button></div>
+    </section>
+
+    <section class="panel" id="p-journal">
+      <h2>Journal</h2>
+      <p class="hint">Optional. Turn it on when you have something to post, since an empty section reads as unfinished. Each entry links out to wherever the post lives.</p>
+      <div class="grid" style="margin-bottom:18px">
+        <div class="field"><label>Section title</label><input data-b="journal.title"></div>
+        <div class="field"><label>Section note</label><input data-b="journal.note"></div>
+      </div>
+      <div class="field"><label>Empty-state line</label><input data-b="journal.emptyLine"></div>
+      <label class="sw" style="margin-bottom:18px"><input type="checkbox" data-b="journal.enabled"> Show this section</label>
+      <div id="lJournal"></div>
+      <div class="bar"><button class="btn" data-add="journal.items">+ Add entry</button></div>
+    </section>
+
+    <section class="panel" id="p-theme">
+      <h2>Theme</h2>
+      <p class="hint">Five palettes. The accent drives every hover, glow, and badge on the page.</p>
+      <div class="themes" id="themes"></div>
+      <div class="field" style="margin-top:22px;max-width:320px"><label>Custom accent, empty uses the preset</label>
+        <div style="display:flex;gap:10px"><input data-b="theme.accent" placeholder="#E07848"><input type="color" data-sync="theme.accent" style="width:48px;padding:2px;height:42px"></div></div>
+      <label class="sw" style="margin-right:16px"><input type="checkbox" data-b="theme.glow"> Ambient glow</label>
+      <label class="sw"><input type="checkbox" data-b="theme.grain"> Film grain</label>
+    </section>
+
+    <section class="panel" id="p-settings">
+      <h2>Settings</h2>
+      <p class="hint">Metadata for search and link previews, plus the header and footer extras.</p>
+      <div class="grid">
+        <div class="field"><label>Page title</label><input data-b="settings.siteTitle"></div>
+        <div class="field"><label>Live URL</label><input data-b="settings.siteUrl" placeholder="https://you.github.io/nm-bio/"></div>
+        <div class="field"><label>Contact email</label><input data-b="contact.email"></div>
+        <div class="field"><label>Phone, vCard only</label><input data-b="contact.phone"></div>
+      </div>
+      <div class="field"><label>Meta description</label><textarea data-b="settings.siteDescription"></textarea></div>
+      <div class="field"><label>OG image path</label><input data-b="settings.ogImage"></div>
+      <label class="sw" style="margin-right:16px"><input type="checkbox" data-b="settings.showQR"> QR button</label>
+      <label class="sw"><input type="checkbox" data-b="settings.showVCard"> Save-contact button</label>
+      <div class="field" style="margin-top:18px"><label>Analytics snippet</label><textarea data-b="settings.analyticsScript"></textarea></div>
+      <div class="note">Plausible, Umami, and GoatCounter all have free tiers and need no cookie banner. Click counts live in their dashboard.</div>
+    </section>
+
+    <section class="panel" id="p-publish">
+      <h2>Publish</h2>
+      <div class="note"><b>Method 1, export.</b> Press <code>Export</code>, drag the downloaded <code>data.json</code> into your repo on github.com, commit. No setup.</div>
+      <h2 style="font-size:16px;margin-top:26px">Method 2, GitHub sync</h2>
+      <p class="hint">Commits <code>data.json</code> straight to the repo so you can edit from your phone. Make a <b>fine-grained</b> token at github.com/settings/tokens scoped to this one repo with <b>Contents: Read and write</b>, nothing else.</p>
+      <div class="grid">
+        <div class="field"><label>Owner</label><input id="ghOwner" placeholder="i2mriky"></div>
+        <div class="field"><label>Repo</label><input id="ghRepo" placeholder="nm-bio"></div>
+        <div class="field"><label>Branch</label><input id="ghBranch" placeholder="main"></div>
+        <div class="field"><label>File path</label><input id="ghPath" placeholder="data.json"></div>
+      </div>
+      <div class="field"><label>Token</label><input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_"></div>
+      <div class="bar">
+        <button class="btn" id="bSaveGh">Save connection</button>
+        <button class="btn" id="bPull">Pull latest</button>
+        <button class="btn dg" id="bForget">Forget token</button>
+      </div>
+      <h2 style="font-size:16px;margin-top:30px">Import</h2>
+      <p class="hint">Restore from a previously exported file.</p>
+      <input type="file" id="fImport" accept="application/json">
+    </section>
+  </main>
+</div>
+<aside id="pane">
+  <div class="ph"><span>Live preview</span><button class="mini" id="bReload" aria-label="Reload preview">&#8635;</button></div>
+  <iframe id="pv" src="index.html" title="Live preview"></iframe>
+</aside>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const uid = () => Math.random().toString(36).slice(2,8);
+const LS = "nm_bio_draft_v2", LSGH = "nm_bio_gh";
+const NETS = ["instagram","facebook","threads","tiktok","pinterest","linkedin","behance","x","youtube","whatsapp","mail","link"];
+let D = null, dirty = false;
+
+const get = (o,p) => p.split(".").reduce((a,k) => a?.[k], o);
+const set = (o,p,v) => { const k = p.split("."); let c = o; k.slice(0,-1).forEach(x => c = (c[x] ??= {})); c[k.at(-1)] = v; };
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function toast(m){ const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(t._); t._ = setTimeout(()=>t.classList.remove("on"),2200); }
+function mark(d){ dirty = d; $("#state").textContent = d ? "Unsaved" : "Saved"; $("#state").className = d ? "dirty" : ""; }
+function move(a,i,d){ const j = i+d; if(j<0||j>=a.length) return; const t = a[i]; a[i] = a[j]; a[j] = t; }
+
+const THEMES = [["copper","Fire copper","#08080A","#E07848"],["athar","Athar navy","#0B1A2F","#D3734A"],
+["bone","Bone light","#EDE9E1","#B5451E"],["mono","Pure mono","#0E0E0E","#FFFFFF"],["museum","Museum gold","#160E19","#C9A961"]];
+
+const NEW = {
+ "actions": () => ({id:uid(),label:"New button",url:"",primary:false,enabled:true}),
+ "portfolios.items": () => ({id:uid(),title:"New portfolio",subtitle:"",tag:"",cover:"",url:"",enabled:true}),
+ "brands.items": () => ({id:uid(),name:"New brand",arabic:"",role:"",tagline:"",logo:"",monogram:"",primaryUrl:"",enabled:true,socials:[]}),
+ "otherPages.items": () => ({id:uid(),name:"New page",net:"instagram",url:"",enabled:true}),
+ "journal.items": () => ({id:uid(),title:"New entry",date:"",excerpt:"",url:"",enabled:true})
+};
+
+(async function boot(){
+  const draft = localStorage.getItem(LS);
+  if (draft){ try { D = JSON.parse(draft); toast("Restored unsaved draft"); } catch(e){} }
+  if (!D){ try { D = await (await fetch("data.json?v="+Date.now())).json(); } catch(e){ toast("data.json not found"); return; } }
+  loadGh(); renderAll(); mark(!!draft);
+})();
+
+$$(".tab").forEach(t => t.onclick = () => {
+  $$(".tab").forEach(x => x.setAttribute("aria-selected", x === t));
+  $$(".panel").forEach(p => p.classList.toggle("on", p.id === "p-" + t.dataset.p));
+});
+
+function renderAll(){
+  bindFields();
+  renderList("actions","#lActions",rowAction);
+  renderList("portfolios.items","#lPortfolios",rowPf);
+  renderList("brands.items","#lBrands",rowBrand);
+  renderList("otherPages.items","#lOther",rowOther);
+  renderList("journal.items","#lJournal",rowJr);
+  renderThemes(); push();
+}
+
+function bindFields(){
+  $$("[data-b]").forEach(el => { const p = el.dataset.b, v = get(D,p);
+    if (el.type === "checkbox") el.checked = v !== false && v !== undefined;
+    else el.value = el.dataset.list ? (v||[]).join(", ") : (v ?? "");
+    el.oninput = el.onchange = () => { let nv = el.type === "checkbox" ? el.checked : el.value;
+      if (el.dataset.list) nv = nv.split(",").map(x=>x.trim()).filter(Boolean);
+      set(D,p,nv); sync();
+      const c = document.querySelector('[data-sync="'+p+'"]'); if (c && /^#/.test(nv)) c.value = nv; };
+  });
+  $$("[data-sync]").forEach(el => { const p = el.dataset.sync; el.value = get(D,p) || "#E07848";
+    el.oninput = () => { set(D,p,el.value); const t = document.querySelector('[data-b="'+p+'"]'); if(t) t.value = el.value; sync(); }; });
+}
+
+function head(path,i,title,extra){
+  return '<div class="ch"><span class="num">'+String(i+1).padStart(2,"0")+'</span>'
+  +'<span class="t">'+(esc(title)||"Untitled")+'</span>'+(extra||"")
+  +'<label class="sw" title="Show"><input type="checkbox" data-l="'+path+'" data-i="'+i+'" data-k="enabled"></label>'
+  +'<button class="mini" data-mv="'+path+'" data-i="'+i+'" data-d="-1" aria-label="Move up">&#8593;</button>'
+  +'<button class="mini" data-mv="'+path+'" data-i="'+i+'" data-d="1" aria-label="Move down">&#8595;</button>'
+  +'<button class="mini dg" data-del="'+path+'" data-i="'+i+'" aria-label="Delete">&#10005;</button></div>';
+}
+const f = (path,i,k,lbl,ph) => '<div class="field"><label>'+lbl+'</label><input data-l="'+path+'" data-i="'+i+'" data-k="'+k+'" placeholder="'+(ph||"")+'"></div>';
+const sel = (path,i,k,cur) => '<div class="field"><label>Icon</label><select data-l="'+path+'" data-i="'+i+'" data-k="'+k+'">'
+  + NETS.map(n => '<option value="'+n+'"'+(cur===n?" selected":"")+'>'+n+'</option>').join("") + '</select></div>';
+
+const rowAction = (o,i,p) => '<div class="card">' + head(p,i,o.label,
+  '<label class="sw" title="Filled style"><input type="checkbox" data-l="'+p+'" data-i="'+i+'" data-k="primary">Solid</label>')
+  + '<div class="grid">' + f(p,i,"label","Label") + f(p,i,"url","URL","vcard, mailto: or https://") + '</div></div>';
+
+const rowPf = (o,i,p) => '<div class="card">' + head(p,i,o.title)
+  + '<div class="grid">' + f(p,i,"title","Title") + f(p,i,"tag","Tag","Deck 01") + '</div>'
+  + f(p,i,"subtitle","Subtitle") + f(p,i,"url","URL") + f(p,i,"cover","Cover image","assets/deck-01.jpg") + '</div>';
+
+const rowOther = (o,i,p) => '<div class="card">' + head(p,i,o.name)
+  + '<div class="grid">' + f(p,i,"name","Name") + sel(p,i,"net",o.net) + '</div>' + f(p,i,"url","URL") + '</div>';
+
+const rowJr = (o,i,p) => '<div class="card">' + head(p,i,o.title)
+  + '<div class="grid">' + f(p,i,"title","Title") + f(p,i,"date","Date","Mar 2026") + '</div>'
+  + f(p,i,"excerpt","Excerpt") + f(p,i,"url","URL") + '</div>';
+
+function rowBrand(o,i,p){
+  return '<div class="card">' + head(p,i,o.name)
+  + '<div class="grid">' + f(p,i,"name","Name") + f(p,i,"arabic","Arabic name") + f(p,i,"role","Role","Founder") + f(p,i,"monogram","Monogram","GM") + '</div>'
+  + f(p,i,"tagline","Tagline")
+  + '<div class="grid">' + f(p,i,"logo","Logo path","assets/logo.png") + f(p,i,"primaryUrl","Main link") + '</div>'
+  + '<div class="card sub" style="margin-top:12px;margin-bottom:0"><label style="margin-bottom:10px">Social icons</label>'
+  + (o.socials||[]).map((s,j) => '<div class="socrow">'
+      + '<select data-s="'+i+'.'+j+'" data-k="net">' + NETS.map(n => '<option value="'+n+'"'+(s.net===n?" selected":"")+'>'+n+'</option>').join("") + '</select>'
+      + '<input data-s="'+i+'.'+j+'" data-k="url" value="'+esc(s.url)+'" placeholder="https://">'
+      + '<button class="mini dg" data-sdel="'+i+'.'+j+'" aria-label="Remove">&#10005;</button></div>').join("")
+  + '<button class="btn" data-sadd="'+i+'" style="margin-top:8px">+ Add social</button></div></div>';
+}
+
+function renderList(path, target, row){
+  const arr = get(D,path) || [];
+  $(target).innerHTML = arr.map((o,i) => row(o,i,path)).join("");
+  $$('[data-l="'+path+'"]').forEach(el => { const i = +el.dataset.i, k = el.dataset.k, o = arr[i];
+    if (el.type === "checkbox") el.checked = o[k] !== false && o[k] !== undefined;
+    else if (el.tagName !== "SELECT") el.value = o[k] ?? "";
+    el.oninput = el.onchange = () => { o[k] = el.type === "checkbox" ? el.checked : el.value; sync(); }; });
+  $$('[data-mv="'+path+'"]').forEach(b => b.onclick = () => { move(arr, +b.dataset.i, +b.dataset.d); renderList(path,target,row); sync(); });
+  $$('[data-del="'+path+'"]').forEach(b => b.onclick = () => { if(confirm("Delete this item?")){ arr.splice(+b.dataset.i,1); renderList(path,target,row); sync(); } });
+  if (path === "brands.items") wireSocials(arr, path, target, row);
+}
+
+function wireSocials(arr, path, target, row){
+  $$("[data-s]").forEach(el => { const parts = el.dataset.s.split("."), i = +parts[0], j = +parts[1];
+    el.onchange = el.oninput = () => { arr[i].socials[j][el.dataset.k] = el.value; sync(); }; });
+  $$("[data-sadd]").forEach(b => b.onclick = () => { const i = +b.dataset.sadd;
+    (arr[i].socials ||= []).push({net:"instagram",url:""}); renderList(path,target,row); sync(); });
+  $$("[data-sdel]").forEach(b => b.onclick = () => { const parts = b.dataset.sdel.split("."), i = +parts[0], j = +parts[1];
+    arr[i].socials.splice(j,1); renderList(path,target,row); sync(); });
+}
+
+$$("[data-add]").forEach(b => b.onclick = () => { const p = b.dataset.add;
+  if (!get(D,p)) set(D,p,[]); get(D,p).push(NEW[p]()); renderAll(); sync(); });
+
+function renderThemes(){
+  $("#themes").innerHTML = THEMES.map(t => '<button class="th" data-th="'+t[0]+'" aria-pressed="'+(D.theme.preset===t[0])+'">'
+    + '<i style="background:'+t[2]+'"></i><i style="background:'+t[3]+'"></i><b>'+t[1]+'</b></button>').join("");
+  $$("[data-th]").forEach(b => b.onclick = () => { D.theme.preset = b.dataset.th; D.theme.accent = ""; renderThemes(); bindFields(); sync(); });
+}
+
+let st;
+function push(){ clearTimeout(st); st = setTimeout(() => { try { $("#pv").contentWindow.postMessage({__nm:D},"*"); } catch(e){} }, 120); }
+function sync(){ mark(true); localStorage.setItem(LS, JSON.stringify(D)); push(); }
+$("#pv").addEventListener("load", push);
+$("#bReload").onclick = () => $("#pv").contentWindow.location.reload();
+
+$("#bExport").onclick = () => { const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:"application/json"}));
+  a.download = "data.json"; a.click(); URL.revokeObjectURL(a.href); mark(false); toast("Exported"); };
+$("#fImport").onchange = e => { const fl = e.target.files[0]; if(!fl) return; const r = new FileReader();
+  r.onload = () => { try { D = JSON.parse(r.result); renderAll(); toast("Imported"); } catch(x){ toast("Not valid JSON"); } }; r.readAsText(fl); };
+
+function loadGh(){ const g = JSON.parse(localStorage.getItem(LSGH)||"{}");
+  ghOwner.value = g.owner||""; ghRepo.value = g.repo||""; ghBranch.value = g.branch||"main";
+  ghPath.value = g.path||"data.json"; ghToken.value = g.token||""; }
+$("#bSaveGh").onclick = () => { localStorage.setItem(LSGH, JSON.stringify({owner:ghOwner.value.trim(),repo:ghRepo.value.trim(),
+  branch:ghBranch.value.trim()||"main",path:ghPath.value.trim()||"data.json",token:ghToken.value.trim()})); toast("Connection saved"); };
+$("#bForget").onclick = () => { const g = JSON.parse(localStorage.getItem(LSGH)||"{}"); delete g.token;
+  localStorage.setItem(LSGH, JSON.stringify(g)); ghToken.value = ""; toast("Token removed"); };
+
+const gh = () => JSON.parse(localStorage.getItem(LSGH)||"{}");
+const api = (g,q) => "https://api.github.com/repos/" + g.owner + "/" + g.repo + "/contents/" + g.path + (q||"");
+const hdr = g => ({Authorization:"Bearer "+g.token, Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"});
+function b64(str){ const b = new TextEncoder().encode(str); let s = "";
+  for (let i=0;i<b.length;i+=0x8000) s += String.fromCharCode.apply(null, b.subarray(i,i+0x8000)); return btoa(s); }
+
+$("#bPull").onclick = async () => { const g = gh(); if(!g.token) return toast("Save a connection first");
+  try { const r = await fetch(api(g,"?ref="+g.branch),{headers:hdr(g)}); if(!r.ok) throw new Error(r.status);
+    const j = await r.json();
+    D = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(j.content.replace(/\n/g,"")), ch => ch.charCodeAt(0))));
+    renderAll(); mark(false); toast("Pulled"); } catch(e){ toast("Pull failed, " + e.message); } };
+
+$("#bPush").onclick = async () => { const g = gh();
+  if(!g.token || !g.owner || !g.repo){ $$(".tab").find(t => t.dataset.p === "publish").click(); return toast("Set up GitHub sync first"); }
+  const b = $("#bPush"); b.disabled = true; b.textContent = "Publishing";
+  try { let sha; const cur = await fetch(api(g,"?ref="+g.branch),{headers:hdr(g)}); if(cur.ok) sha = (await cur.json()).sha;
+    const body = {message:"Update " + g.path + " " + new Date().toISOString().slice(0,16).replace("T"," "),
+      content:b64(JSON.stringify(D,null,2)), branch:g.branch};
+    if (sha) body.sha = sha;
+    const r = await fetch(api(g),{method:"PUT",headers:Object.assign({},hdr(g),{"Content-Type":"application/json"}),body:JSON.stringify(body)});
+    if(!r.ok) throw new Error((await r.json()).message || r.status);
+    mark(false); toast("Published, live in about a minute");
+  } catch(e){ toast("Publish failed, " + e.message); } finally { b.disabled = false; b.textContent = "Publish"; } };
+
+addEventListener("beforeunload", e => { if(dirty){ e.preventDefault(); e.returnValue = ""; } });
+</script>
+</body>
+</html>
