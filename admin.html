@@ -85,10 +85,12 @@ font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:11px 18px;b
   </header>
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" data-p="profile" aria-selected="true">Profile</button>
+    <button class="tab" role="tab" data-p="stats">Stats</button>
     <button class="tab" role="tab" data-p="portfolios">Portfolios</button>
     <button class="tab" role="tab" data-p="brands">Brands</button>
     <button class="tab" role="tab" data-p="other">Other pages</button>
     <button class="tab" role="tab" data-p="journal">Journal</button>
+    <button class="tab" role="tab" data-p="arcade">Arcade</button>
     <button class="tab" role="tab" data-p="theme">Theme</button>
     <button class="tab" role="tab" data-p="settings">Settings</button>
     <button class="tab" role="tab" data-p="publish">Publish</button>
@@ -117,6 +119,14 @@ font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:11px 18px;b
       <p class="hint">Up to three. Use <code>vcard</code> as the URL to make a save-contact button.</p>
       <div id="lActions"></div>
       <div class="bar"><button class="btn" data-add="actions">+ Add button</button></div>
+    </section>
+
+    <section class="panel" id="p-stats">
+      <h2>Stats</h2>
+      <p class="hint">Four numbers directly under the hero. Real, specific figures do more for credibility than another paragraph.</p>
+      <label class="sw" style="margin-bottom:18px"><input type="checkbox" data-b="stats.enabled"> Show this strip</label>
+      <div id="lStats"></div>
+      <div class="bar"><button class="btn" data-add="stats.items">+ Add stat</button></div>
     </section>
 
     <section class="panel" id="p-portfolios">
@@ -166,6 +176,27 @@ font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:11px 18px;b
       <label class="sw" style="margin-bottom:18px"><input type="checkbox" data-b="journal.enabled"> Show this section</label>
       <div id="lJournal"></div>
       <div class="bar"><button class="btn" data-add="journal.items">+ Add entry</button></div>
+    </section>
+
+    <section class="panel" id="p-arcade">
+      <h2>Arcade</h2>
+      <p class="hint">Sits at the very bottom as a reward for scrolling. Two games run in the page; the third tile links out to a full demo. Scores stay on the visitor's own device.</p>
+      <div class="grid">
+        <div class="field"><label>Section title</label><input data-b="arcade.title"></div>
+        <div class="field"><label>Section note</label><input data-b="arcade.note"></div>
+      </div>
+      <div class="field"><label>Headline</label><input data-b="arcade.headline"></div>
+      <div class="field"><label>Sub line</label><input data-b="arcade.sub"></div>
+      <label class="sw" style="margin-bottom:22px"><input type="checkbox" data-b="arcade.enabled"> Show this section</label>
+
+      <h2 style="font-size:16px">Third tile — external demo</h2>
+      <p class="hint">Leave the URL empty and this tile stays hidden, so it never shows a dead link.</p>
+      <div class="grid">
+        <div class="field"><label>Label</label><input data-b="arcade.external.label"></div>
+        <div class="field"><label>Tagline</label><input data-b="arcade.external.tagline"></div>
+      </div>
+      <div class="field"><label>Demo URL</label><input data-b="arcade.external.url" placeholder="https://"></div>
+      <label class="sw"><input type="checkbox" data-b="arcade.external.enabled"> Show this tile</label>
     </section>
 
     <section class="panel" id="p-theme">
@@ -244,6 +275,7 @@ const THEMES = [["copper","Fire copper","#08080A","#E07848"],["athar","Athar nav
 
 const NEW = {
  "actions": () => ({id:uid(),label:"New button",url:"",primary:false,enabled:true}),
+ "stats.items": () => ({id:uid(),value:"0",label:"New stat",enabled:true}),
  "portfolios.items": () => ({id:uid(),title:"New portfolio",subtitle:"",tag:"",cover:"",url:"",enabled:true}),
  "brands.items": () => ({id:uid(),name:"New brand",arabic:"",role:"",tagline:"",logo:"",monogram:"",primaryUrl:"",enabled:true,socials:[]}),
  "otherPages.items": () => ({id:uid(),name:"New page",net:"instagram",url:"",enabled:true}),
@@ -265,6 +297,7 @@ $$(".tab").forEach(t => t.onclick = () => {
 function renderAll(){
   bindFields();
   renderList("actions","#lActions",rowAction);
+  renderList("stats.items","#lStats",rowStat);
   renderList("portfolios.items","#lPortfolios",rowPf);
   renderList("brands.items","#lBrands",rowBrand);
   renderList("otherPages.items","#lOther",rowOther);
@@ -300,6 +333,9 @@ const sel = (path,i,k,cur) => '<div class="field"><label>Icon</label><select dat
 const rowAction = (o,i,p) => '<div class="card">' + head(p,i,o.label,
   '<label class="sw" title="Filled style"><input type="checkbox" data-l="'+p+'" data-i="'+i+'" data-k="primary">Solid</label>')
   + '<div class="grid">' + f(p,i,"label","Label") + f(p,i,"url","URL","vcard, mailto: or https://") + '</div></div>';
+
+const rowStat = (o,i,p) => '<div class="card">' + head(p,i,o.label)
+  + '<div class="grid">' + f(p,i,"value","Value","980K+") + f(p,i,"label","Label") + '</div></div>';
 
 const rowPf = (o,i,p) => '<div class="card">' + head(p,i,o.title)
   + '<div class="grid">' + f(p,i,"title","Title") + f(p,i,"tag","Tag","Deck 01") + '</div>'
