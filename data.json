@@ -4,7 +4,7 @@
     "name": "Nour Mohamed",
     "monogram": "NM*",
     "role": "Multidisciplinary Creative Director & AI Specialist",
-    "location": "New Cairo · Open to remote worldwide",
+    "location": "New Cairo · Remote worldwide",
     "avatar": "assets/avatar.jpg",
     "bio": "I blend visual design, 3D spatial visualization, and generative AI to architect premium brand identities and grow communities without paid reach.",
     "status": {
@@ -31,7 +31,7 @@
   "settings": {
     "siteTitle": "Nour Mohamed — Creative Director & AI Specialist",
     "siteDescription": "Multidisciplinary Creative Director and AI specialist in New Cairo. Portfolios, brands, and contact in one place.",
-    "siteUrl": "https://i2mriky.github.io/nm-bio/",
+    "siteUrl": "https://2mriky.github.io/bio-hub/",
     "ogImage": "assets/og.jpg",
     "showQR": true,
     "showVCard": true,
@@ -72,6 +72,35 @@
       "enabled": true
     }
   ],
+  "stats": {
+    "enabled": true,
+    "items": [
+      {
+        "id": "s1",
+        "value": "125+",
+        "label": "Projects directed",
+        "enabled": true
+      },
+      {
+        "id": "s2",
+        "value": "980K+",
+        "label": "Organic impressions",
+        "enabled": true
+      },
+      {
+        "id": "s3",
+        "value": "24.5K",
+        "label": "Community built",
+        "enabled": true
+      },
+      {
+        "id": "s4",
+        "value": "136K",
+        "label": "Views in 14 days",
+        "enabled": true
+      }
+    ]
+  },
   "portfolios": {
     "title": "Portfolios",
     "note": "Three tracks, three decks",
@@ -145,6 +174,10 @@
           {
             "net": "linkedin",
             "url": "https://www.linkedin.com/in/nour-mohamed-56a7463b9"
+          },
+          {
+            "net": "mail",
+            "url": "mailto:2mrikydesign@gmail.com"
           }
         ]
       },
@@ -268,5 +301,18 @@
     "enabled": false,
     "emptyLine": "First note lands here soon.",
     "items": []
+  },
+  "arcade": {
+    "enabled": true,
+    "title": "Arcade",
+    "note": "Things I built for fun",
+    "headline": "Three of my own builds.",
+    "sub": "Two you can play right here.",
+    "external": {
+      "label": "El Partyta",
+      "tagline": "Interactive party game",
+      "url": "https://i2mriky.github.io/El-Partyta-Copy-Semi-Final/",
+      "enabled": true
+    }
   }
 }
